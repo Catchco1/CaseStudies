@@ -1,4 +1,4 @@
-#WMI
+# WMI
 
 This information was used in the 2018 presentation at BSides Charm, and is also to be used in 2019 Towson Case Studies in Computer Science course.
 
