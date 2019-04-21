@@ -1,0 +1,61 @@
+#pragma namespace ("\\\\.\\root\\subscription")
+
+instance of ActiveScriptEventConsumer as $LogConsStart
+{
+	Name = "PowerShellStarted";
+	ScriptingEngine = "VBScript";
+   
+	ScriptText = 
+		"Dim file_obj, file\n"
+		"Set file_obj = CreateObject(\"Scripting.FileSystemObject\")\n"
+		"Set file = file_obj.OpenTextFile(\"C:\\Users\\Connor\\Desktop\\LogProcess.txt\", 8, true)\n"
+			"file.WriteLine(\"PowerShell Started \" & Now)\n"
+			"file.WriteLine(\"   PID \" & TargetEvent.ProcessID)\n"
+			"file.WriteLine(\"   Parent PID \" & TargetEvent.ParentProcessID)\n"
+			"file.Close\n"; 
+};
+
+instance of ActiveScriptEventConsumer as $LogConsStop
+{
+	Name = "PowerShellStopped";
+	ScriptingEngine = "VBScript";
+   
+	ScriptText = 
+		"Dim file_obj, file\n"
+		"Set file_obj = CreateObject(\"Scripting.FileSystemObject\")\n"
+		"Set file = file_obj.OpenTextFile(\"C:\\Users\\Connor\\Desktop\\LogProcess.txt\", 8, true)\n"
+			"file.WriteLine(\"PowerShell Stopped \" & Now)\n"
+			"file.WriteLine(\"   PID \" & TargetEvent.ProcessID)\n"
+			"file.WriteLine(\"   Parent PID \" & TargetEvent.ParentProcessID)\n"
+			"file.Close\n"; 
+};
+
+instance of __EventFilter as $LogFiltStart
+{
+   Name = "LogStartFilterProcess";
+   Query = "SELECT * FROM Win32_ProcessStartTrace "
+       "WHERE ProcessName LIKE \"%powershell%\"";
+   QueryLanguage = "WQL";
+   EventNameSpace = "root\\cimv2";
+};
+
+instance of __EventFilter as $LogFiltStop
+{
+   Name = "LogStopFilterProcessEnd";
+   Query = "SELECT * FROM Win32_ProcessStopTrace "
+       "WHERE ProcessName LIKE \"%powershell%\"";
+   QueryLanguage = "WQL";
+   EventNameSpace = "root\\cimv2";
+};
+
+instance of __FilterToConsumerBinding as $LogStart
+{
+   Filter = $LogFiltStart;
+   Consumer = $LogConsStart;
+};
+
+instance of __FilterToConsumerBinding as $LogStop
+{
+   Filter = $LogFiltStop;
+   Consumer = $LogConsStop;
+};

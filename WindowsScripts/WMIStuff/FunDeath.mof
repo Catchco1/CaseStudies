@@ -1,0 +1,24 @@
+#pragma namespace ("\\\\.\\root\\subscription")
+
+instance of CommandLineEventConsumer as $VidConsStart
+{
+   Name = "CMDKillVid";
+   CommandLineTemplate = "cmd.exe /c \"taskkill /f /t /im procexp* & \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" C:\\Users\\<User>\\Desktop\\Stuff\\NeverGonnaGiveYouUp.mp3\"";
+ 
+};
+
+instance of __EventFilter as $VidFiltStart
+{
+   Name = "VidStartFilterProcess";
+   Query = "SELECT * FROM Win32_ProcessStartTrace "
+       "WHERE ProcessName LIKE \"%procexp%\"";
+   QueryLanguage = "WQL";
+   EventNameSpace = "root\\cimv2";
+};
+
+instance of __FilterToConsumerBinding as $VidBind
+{
+   Filter = $VidFiltStart;
+   Consumer = $VidConsStart;
+};
+

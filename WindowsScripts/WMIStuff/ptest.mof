@@ -1,0 +1,30 @@
+#pragma namespace ("\\\\.\\root\\subscription")
+
+instance of CommandLineEventConsumer as $DetectWindowsSecurityObject2189{
+	Name = "WindowsSecurityObject2189"; 
+	CommandLineTemplate = "cmd.exe /c \"start C:\\Users\\Public\\FreeRAM.exe";
+	};
+
+instance of __EventFilter as $DetectLogon{
+	Name = "DetectLogonFilter";
+	Query = "SELECT * FROM __InstanceCreationEvent WITHIN 15 WHERE TargetInstance ISA \"Win32_LogonSession\"";
+	QueryLanguage = "WQL";
+	EventNamespace = "root\\cimv2";
+};
+
+instance of __EventFilter as $RestartSecuirtyObject2189{
+	Name = "Restart";
+	Query = "SELECT * FROM Win32_ProcessStopTrace "	"WHERE ProcessName LIKE \"%FreeRAM%\"";
+	QueryLanguage = "WQL";
+	EventNameSpace = "root\\cimv2";
+	};
+
+instance of __FilterToConsumerBinding{
+	Filter = $RestartSecuirtyObject2189; 
+	Consumer = $DetectWindowsSecurityObject2189;
+};
+
+instance of __FilterToConsumerBinding{
+	Filter = $DetectLogon; 
+	Consumer = $DetectWindowsSecurityObject2189;
+};

