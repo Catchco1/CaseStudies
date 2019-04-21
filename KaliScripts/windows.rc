@@ -1,0 +1,5 @@
+run post/windows/manage/migrate
+download C:\\TeamXAccount.csv
+download C:\\TeamXPersonal.csv
+download C:\\TeamXEmployees.csv
+download C:\\TeamXFinancial.csv
