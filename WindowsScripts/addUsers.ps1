@@ -15,7 +15,7 @@ foreach($User in $ADUsers)
         -surname $User.last `
         -userprincipalname ($username + "@production.team2.tu")
         if($User.Role -eq "IT Staff"){
-            Add-ADGroupMember -Identity "Domain Admins" -Member $username
+            Add-ADGroupMember -Identity "Domain Admins" -Members $username
         }
     }
 }
